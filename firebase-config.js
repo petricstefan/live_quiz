@@ -11,12 +11,12 @@
 // ============================================
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyCT3UZzw-cOZItRlF4A9R1X9fPMRCS4UrA",
+    authDomain: "hackathon2026livequiz.firebaseapp.com",
+    projectId: "hackathon2026livequiz",
+    storageBucket: "hackathon2026livequiz.firebasestorage.app",
+    messagingSenderId: "973227863991",
+    appId: "1:973227863991:web:cf854eb67f0bcfaddc4232"
 };
 
 // Initialize Firebase
