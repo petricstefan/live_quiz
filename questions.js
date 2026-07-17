@@ -12,33 +12,39 @@ const QUIZ_CONFIG = {
   title: "Live Quiz Challenge! 🎉",
   questions: [
     {
-      question: "What is the capital of France?",
-      answers: ["London", "Paris", "Berlin", "Madrid"],
-      correct: 1,
+      question: "Q1. Who started the Microsoft Global Hackathon?",
+      answers: ["Bill Gates ", "Steve Ballmer ", "Satya Nadella", "Kevin Scott "],
+      correct: 3,
       time: 20
     },
     {
-      question: "Which planet is known as the Red Planet?",
-      answers: ["Venus", "Jupiter", "Mars", "Saturn"],
-      correct: 2,
+      question: "Q2. In which year was the first Microsoft Global Hackathon held? ",
+      answers: ["2010 ", "2012 ", "2014", "2016 "],
+      correct: 3,
       time: 15
     },
     {
-      question: "What year did the first iPhone launch?",
-      answers: ["2005", "2006", "2007", "2008"],
-      correct: 2,
+      question: "Q3. How long does Microsoft Global Hackathon typically run? ",
+      answers: ["1 day ", "3 days ", "1 week", "1 month "],
+      correct: 3,
       time: 20
     },
     {
-      question: "How many continents are there?",
-      answers: ["5", "6", "7", "8"],
-      correct: 2,
-      time: 10
+      question: "Q4. Which organization runs the Microsoft Global Hackathon? ",
+      answers: ["CELA ", "Engineering ", "MCAPS ", "The Garage"],
+      correct: 4,
+      time: 15
     },
     {
-      question: "What is the largest ocean on Earth?",
-      answers: ["Atlantic", "Indian", "Arctic", "Pacific"],
-      correct: 3,
+      question: "Q5. What do you need before registering for Hackathon? ",
+      answers: ["A complete project plan ", "A team of at least 3 people ", "Manager approval ", "None of the above"],
+      correct: 4,
+      time: 15
+    },
+     {
+      question: "Q6. What is the best time to join Hackathon? ",
+      answers: ["After you have a complete idea  ", "After you have a full team ", "During Hackathon Week  ", "Right now — even if you're still exploring ideas"],
+      correct: 4,
       time: 15
     }
   ]
