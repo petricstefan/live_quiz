@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="questions.js"></script>
+</head>
+<body>
+    <!-- Landing Screen -->
+    <div id="landing" class="screen active">
+        <div class="container">
+            <h1 class="title-glow" id="quiz-title">🎯 Live Quiz</h1>
+            <p class="subtitle">Join the fun!</p>
+            <div class="role-buttons">
+                <button class="btn btn-host" onclick="showHostSetup()">🎮 Host Quiz</button>
+                <button class="btn btn-player" onclick="showPlayerJoin()">📱 Join as Player</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Host Setup -->
+    <div id="host-setup" class="screen">
+        <div class="container">
+            <h2>🎮 Host Setup</h2>
+            <p>Create a game room for players to join</p>
+            <div class="input-group">
+                <input type="text" id="host-room-code" placeholder="Enter a room code (e.g. QUIZ2026)" maxlength="10">
+            </div>
+            <button class="btn btn-host" onclick="createRoom()">Create Room</button>
+            <button class="btn btn-back" onclick="showLanding()">← Back</button>
+        </div>
+    </div>
+
+    <!-- Host Lobby -->
+    <div id="host-lobby" class="screen">
+        <div class="container">
+            <h2>🎮 Waiting for Players</h2>
+            <div class="room-code-display">
+                Room Code: <span id="display-room-code" class="room-code-big"></span>
+            </div>
+            <div class="player-count">
+                <span id="player-count">0</span> players joined
+            </div>
+            <div id="player-list" class="player-list"></div>
+            <button class="btn btn-start" onclick="startQuiz()">🚀 Start Quiz!</button>
+        </div>
+    </div>
+
+    <!-- Host Question View -->
+    <div id="host-question" class="screen">
+        <div class="container-wide">
+            <div class="question-header">
+                <span class="q-number" id="host-q-number">Q1</span>
+                <div class="timer-bar-container">
+                    <div class="timer-bar" id="host-timer-bar"></div>
+                </div>
+                <span class="timer-text" id="host-timer">20</span>
+            </div>
+            <h2 class="question-text" id="host-question-text"></h2>
+            <div class="answers-grid" id="host-answers"></div>
+            <div class="answer-stats" id="host-answer-stats"></div>
+        </div>
+    </div>
+
+    <!-- Host Results -->
+    <div id="host-results" class="screen">
+        <div class="container-wide">
+            <h2>📊 Results</h2>
+            <div class="correct-answer-reveal" id="correct-answer-reveal"></div>
+            <div class="stats-row" id="stats-row"></div>
+            <button class="btn btn-next" onclick="nextQuestion()">Next Question →</button>
+        </div>
+    </div>
+
+    <!-- Host Final Leaderboard -->
+    <div id="host-final" class="screen">
+        <div class="container-wide">
+            <h2>🏆 Final Leaderboard</h2>
+            <div id="final-leaderboard" class="leaderboard"></div>
+            <button class="btn btn-host" onclick="resetGame()">🔄 Play Again</button>
+        </div>
+    </div>
+
+    <!-- Player Join -->
+    <div id="player-join" class="screen">
+        <div class="container">
+            <h2>📱 Join Quiz</h2>
+            <div class="input-group">
+                <input type="text" id="player-room-code" placeholder="Room Code" maxlength="10">
+            </div>
+            <div class="input-group">
+                <input type="text" id="player-name" placeholder="Your Name" maxlength="20">
+            </div>
+            <button class="btn btn-player" onclick="joinRoom()">Join!</button>
+            <button class="btn btn-back" onclick="showLanding()">← Back</button>
+        </div>
+    </div>
+
+    <!-- Player Waiting -->
+    <div id="player-waiting" class="screen">
+        <div class="container">
+            <div class="waiting-animation">⏳</div>
+            <h2 id="player-waiting-text">Waiting for host to start...</h2>
+            <p id="player-name-display" class="player-greeting"></p>
+        </div>
+    </div>
+
+    <!-- Player Answer -->
+    <div id="player-answer" class="screen">
+        <div class="container-wide">
+            <div class="question-header">
+                <span class="q-number" id="player-q-number">Q1</span>
+                <div class="timer-bar-container">
+                    <div class="timer-bar" id="player-timer-bar"></div>
+                </div>
+                <span class="timer-text" id="player-timer">20</span>
+            </div>
+            <h2 class="question-text" id="player-question-text"></h2>
+            <div class="answers-grid player-answers" id="player-answers"></div>
+        </div>
+    </div>
+
+    <!-- Player Result -->
+    <div id="player-result" class="screen">
+        <div class="container">
+            <div id="player-result-icon" class="result-icon"></div>
+            <h2 id="player-result-text"></h2>
+            <p id="player-score-text" class="score-text"></p>
+        </div>
+    </div>
+
+    <!-- Player Final -->
+    <div id="player-final" class="screen">
+        <div class="container">
+            <h2>🏆 Game Over!</h2>
+            <div id="player-final-rank" class="final-rank"></div>
+            <div id="player-final-score" class="final-score"></div>
+        </div>
+    </div>
+
+    <!-- Firebase Config Modal -->
+    <div id="firebase-modal" class="modal">
+        <div class="modal-content">
+            <h2>⚙️ Firebase Setup Required</h2>
+            <p>To enable real-time multiplayer, you need to add your Firebase config.</p>
+            <p>Edit <code>firebase-config.js</code> with your Firebase project settings.</p>
+            <p><a href="https://console.firebase.google.com" target="_blank">Go to Firebase Console →</a></p>
+            <button class="btn btn-host" onclick="closeModal()">I've configured it</button>
+        </div>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
